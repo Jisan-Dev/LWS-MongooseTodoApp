@@ -6,7 +6,7 @@ const Todo = require('../models/todoModel');
 
 const getAllTodo = async (_req, res) => {
   try {
-    const todos = await Todo.find({});
+    const todos = await Todo.find({}, '-__v'); //excluding __v (projection)
     res.status(200).json(todos);
   } catch (error) {
     res.status(500).json(error);
@@ -16,7 +16,7 @@ const getAllTodo = async (_req, res) => {
 const getTodoById = async (req, res) => {
   const id = req.params?.id;
   try {
-    const todo = await Todo.findById(id).exec();
+    const todo = await Todo.findById(id);
     res.status(200).json(todo);
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error Occurred', error });
