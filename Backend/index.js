@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const PORT = 3000 || process.env.PORT;
+const todoHandler = require('./routeHandler/todoHandler');
 
 // express app initialization
 const app = express();
@@ -14,6 +15,11 @@ mongoose
   .catch((err) => console.error(err));
 
 // application routes
+app.use('/todo', todoHandler);
+
+app.get('/', (req, res) => {
+  res.send('Welcome to Todo API');
+});
 
 // default error handler
 function errorHandler(err, req, res, next) {
