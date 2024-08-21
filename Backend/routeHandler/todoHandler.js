@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const todoSchema = require('../schemas/todoSchema');
+const { verifyToken } = require('../middlewares/verifyToken');
 const Todo = new mongoose.model('Todo', todoSchema);
 
 // GET ALL THE TODO
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
     const todos = await Todo.find({});
     res.status(200).json(todos);
