@@ -25,7 +25,14 @@ router.post('/', async (req, res) => {
 });
 
 // POST MULTIPLE TODO
-router.post('/all', async (req, res) => {});
+router.post('/all', async (req, res) => {
+  try {
+    const result = await Todo.insertMany(req.body);
+    res.status(201).json({ success: true, message: 'Todos inserted successfully', result });
+  } catch (error) {
+    res.status(500).json({ success: false, error });
+  }
+});
 
 // POST A TODO
 router.put('/:id', async (req, res) => {});
