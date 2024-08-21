@@ -3,28 +3,14 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const todoSchema = require('../schemas/todoSchema');
 const { verifyToken } = require('../middlewares/verifyToken');
+const { getAllTodo, getTodoById } = require('../controllers/todo.controller');
 const Todo = new mongoose.model('Todo', todoSchema);
 
 // GET ALL THE TODO
-router.get('/', verifyToken, async (req, res) => {
-  try {
-    const todos = await Todo.find({});
-    res.status(200).json(todos);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+router.get('/', verifyToken, getAllTodo);
 
 // GET A TODO by ID
-router.get('/:id', async (req, res) => {
-  const id = req.params?.id;
-  try {
-    const todo = await Todo.findById(id).exec();
-    res.status(200).json(todo);
-  } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error Occurred', error });
-  }
-});
+router.get('/:id', getTodoById);
 
 // POST A NEW TODO
 router.post('/', async (req, res) => {
