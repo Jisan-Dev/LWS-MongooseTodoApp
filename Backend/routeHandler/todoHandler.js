@@ -39,8 +39,9 @@ router.put('/:id', async (req, res) => {
   const id = req.params?.id;
   const update = req.body;
   try {
-    const result = await Todo.updateOne({ _id: id }, update);
-    res.status(200).json({ success: true, result });
+    // const result = await Todo.findByIdAndUpdate({_id: id}, update); // returns matchedCount, modifiedCount etc
+    const result = await Todo.findByIdAndUpdate(id, update, { new: true }); // returns updatedData
+    res.status(200).json({ success: true, updatedTodo: result });
   } catch (error) {
     res.status(500).json({ success: false, error });
   }
