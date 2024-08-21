@@ -34,8 +34,17 @@ router.post('/all', async (req, res) => {
   }
 });
 
-// POST A TODO
-router.put('/:id', async (req, res) => {});
+// PUT A TODO
+router.put('/:id', async (req, res) => {
+  const id = req.params?.id;
+  const update = req.body;
+  try {
+    const result = await Todo.updateOne({ _id: id }, update);
+    res.status(200).json({ success: true, result });
+  } catch (error) {
+    res.status(500).json({ success: false, error });
+  }
+});
 
 // DELETE A TODO
 router.delete('/:id', async (req, res) => {});
