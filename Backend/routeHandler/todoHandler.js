@@ -30,7 +30,7 @@ router.post('/all', async (req, res) => {
     const result = await Todo.insertMany(req.body);
     res.status(201).json({ success: true, message: 'Todos inserted successfully', result });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Something went wrong', error });
+    res.status(500).json({ success: false, message: 'SInternal Server Error', error });
   }
 });
 
@@ -44,7 +44,7 @@ router.put('/:id', async (req, res) => {
     if (!result) return res.status(404).json({ success: false, message: 'Something went wrong' });
     res.status(200).json({ success: true, result });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Something went wrong', error });
+    res.status(500).json({ success: false, message: 'Internal Server Error', error });
   }
 });
 
@@ -56,7 +56,7 @@ router.delete('/:id', async (req, res) => {
     if (!result) return res.status(404).json({ success: false, message: 'Something went wrong' });
     res.status(200).json({ success: true, deletedTodo: result });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Something went wrong', error });
+    res.status(500).json({ success: false, message: 'Internal Server Error', error });
   }
 });
 
