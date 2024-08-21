@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
   try {
     const result = await newTodo.save();
-    res.status(201).json({ message: 'Todo inserted successfully', result });
+    res.status(201).json({ success: true, message: 'Todo inserted successfully', result });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -30,7 +30,7 @@ router.post('/all', async (req, res) => {
     const result = await Todo.insertMany(req.body);
     res.status(201).json({ success: true, message: 'Todos inserted successfully', result });
   } catch (error) {
-    res.status(500).json({ success: false, error });
+    res.status(500).json({ success: false, message: 'Something went wrong', error });
   }
 });
 
@@ -39,15 +39,25 @@ router.put('/:id', async (req, res) => {
   const id = req.params?.id;
   const update = req.body;
   try {
-    // const result = await Todo.findByIdAndUpdate({_id: id}, update); // returns matchedCount, modifiedCount etc
+    // const result = await Todo.updateOne({ _id: id }, update); // returns matchedCount, modifiedCount etc
     const result = await Todo.findByIdAndUpdate(id, update, { new: true }); // returns updatedData
-    res.status(200).json({ success: true, updatedTodo: result });
+    if (!result) return res.status(404).json({ success: false, message: 'Something went wrong' });
+    res.status(200).json({ success: true, result });
   } catch (error) {
-    res.status(500).json({ success: false, error });
+    res.status(500).json({ success: false, message: 'Something went wrong', error });
   }
 });
 
 // DELETE A TODO
-router.delete('/:id', async (req, res) => {});
+router.delete('/:id', async (req, res) => {
+  const id = req.params?.id;
+  try {
+    const result = await Todo.findByIdAndDelete(id); //findByIdAndDelete(id) is a shorthand for findOneAndDelete({ _id: id }). ~deleteOne({_id: id}) also works~
+    if (!result) return res.status(404).json({ success: false, message: 'Something went wrong' });
+    res.status(200).json({ success: true, deletedTodo: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Something went wrong', error });
+  }
+});
 
 module.exports = router;
