@@ -5,10 +5,25 @@ const todoSchema = require('../schemas/todoSchema');
 const Todo = new mongoose.model('Todo', todoSchema);
 
 // GET ALL THE TODO
-router.get('/', async (req, res) => {});
+router.get('/', async (req, res) => {
+  try {
+    const todos = await Todo.find({});
+    res.status(200).json(todos);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 // GET A TODO by ID
-router.get('/:id', async (req, res) => {});
+router.get('/:id', async (req, res) => {
+  const id = req.params?.id;
+  try {
+    const todo = await Todo.findById(id).exec();
+    res.status(200).json(todo);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error Occurred', error });
+  }
+});
 
 // POST A NEW TODO
 router.post('/', async (req, res) => {
