@@ -22,6 +22,12 @@ router.get('/js', async (_req, res) => {
   res.status(200).json(data);
 });
 
+// GET ALL TODO BY LANGUAGE-NAME USING THE QUERY HELPER(example)
+router.get('/language', async (_req, res) => {
+  const data = await Todo.find().byLanguage('ts');
+  res.status(200).json(data);
+});
+
 // GET A TODO by ID
 router.get('/:id', getTodoById);
 
