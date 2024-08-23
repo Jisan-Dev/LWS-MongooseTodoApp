@@ -16,6 +16,12 @@ router.get('/active', async (_req, res) => {
   res.status(200).json(data);
 });
 
+// GET ALL TODO THAT HAS JS WORD IN TITLE USING THE CUSTOM STATIC METHOD(example)
+router.get('/js', async (_req, res) => {
+  const data = await Todo.findByJs();
+  res.status(200).json(data);
+});
+
 // GET A TODO by ID
 router.get('/:id', getTodoById);
 

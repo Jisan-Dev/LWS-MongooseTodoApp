@@ -10,9 +10,17 @@ const todoSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+// instance methods
 todoSchema.methods = {
   findActive: function () {
     return mongoose.model('Todo').find({ status: 'active' });
+  },
+};
+
+// static methods
+todoSchema.statics = {
+  findByJs: function () {
+    return this.find({ title: /js/i }); //find title that has 'js' in it
   },
 };
 
