@@ -10,4 +10,10 @@ const todoSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+todoSchema.methods = {
+  findActive: function () {
+    return mongoose.model('Todo').find({ status: 'active' });
+  },
+};
+
 module.exports = todoSchema;

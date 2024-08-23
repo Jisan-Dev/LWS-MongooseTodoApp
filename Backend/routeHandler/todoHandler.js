@@ -9,6 +9,13 @@ const Todo = new mongoose.model('Todo', todoSchema);
 // GET ALL THE TODO
 router.get('/', verifyToken, getAllTodo);
 
+// GET ALL ACTIVE TODO USING THE CUSTOM INSTANCE METHOD(example)
+router.get('/active', async (_req, res) => {
+  const todo = new Todo();
+  const data = await todo.findActive();
+  res.status(200).json(data);
+});
+
 // GET A TODO by ID
 router.get('/:id', getTodoById);
 
